@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2TLOGISTICS - Calculadora de Espuma</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            background-color: #2c3e50;
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+        }
+        .header img {
+            height: 60px;
+            margin-right: 15px;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 28px;
+        }
+        .formula-box {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .calculator {
+            background-color: #e8f4f8;
+            padding: 15px;
+            border-radius: 8px;
+        }
+        input, button {
+            padding: 8px;
+            margin: 5px 0;
+        }
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+            margin-right: 10px;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        #results {
+            margin-top: 15px;
+            font-weight: bold;
+        }
+        .download-btn {
+            background-color: #27ae60;
+        }
+        .download-btn:hover {
+            background-color: #219653;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <!-- Reemplaza "logo.png" con la ruta de tu logo -->
+        <img src="logo.png" alt="Logo 2TLOGISTICS">
+        <h1>2TLOGISTICS</h1>
+    </div>
+    
+    <div class="formula-box">
+        <h2>Fórmula para Espuma de Colchón</h2>
+        <p>Densidad típica: 20-30 kg/m³ (ajustable)</p>
+        
+        <table>
+            <tr>
+                <th>Componente</th>
+                <th>Porcentaje (%)</th>
+                <th>Función</th>
+            </tr>
+            <tr>
+                <td>Poliol</td>
+                <td>50-70%</td>
+                <td>Base de la espuma</td>
+            </tr>
+            <tr>
+                <td>Isocianato (TDI/MDI)</td>
+                <td>30-50%</td>
+                <td>Reactivo químico</td>
+            </tr>
+            <tr>
+                <td>Agua</td>
+                <td>2-5%</td>
+                <td>Genera CO₂ para expansión</td>
+            </tr>
+            <tr>
+                <td>Catalizador</td>
+                <td>0.1-1%</td>
+                <td>Acelera la reacción</td>
+            </tr>
+            <tr>
+                <td>Surfactante</td>
+                <td>0.5-2%</td>
+                <td>Controla estructura de celdas</td>
+            </tr>
+        </table>
+        
+        <p><strong>Reacción principal:</strong> Poliol (OH) + Isocianato (NCO) → Poliuretano + Calor</p>
+    </div>
+    
+    <div class="calculator">
+        <h2>Calculadora de Ingredientes</h2>
+        <label for="volume">Volumen de la caja (m³):</label>
+        <input type="number" id="volume" step="0.1" min="0.1" value="1"><br>
+        
+        <label for="density">Densidad deseada (kg/m³):</label>
+        <input type="number" id="density" min="20" max="50" value="25"><br>
+        
+        <button onclick="calculate()">Calcular</button>
+        <button onclick="downloadTXT()" class="download-btn">Descargar TXT</button>
+        
+        <div id="results">
+            <h3>Resultados:</h3>
+            <p id="total-mixture"></p>
+            <table>
+                <tr>
+                    <th>Ingrediente</th>
+                    <th>Peso (kg)</th>
+                </tr>
+                <tr>
+                    <td>Poliol</td>
+                    <td id="poliol"></td>
+                </tr>
+                <tr>
+                    <td>Isocianato</td>
+                    <td id="isocianato"></td>
+                </tr>
+                <tr>
+                    <td>Agua</td>
+                    <td id="agua"></td>
+                </tr>
+                <tr>
+                    <td>Catalizador</td>
+                    <td id="catalizador"></td>
+                </tr>
+                <tr>
+                    <td>Surfactante</td>
+                    <td id="surfactante"></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        function calculate() {
+            const volume = parseFloat(document.getElementById('volume').value);
+            const density = parseFloat(document.getElementById('density').value);
+            const totalMixture = volume * density;
+            
+            const poliol = totalMixture * 0.6;
+            const isocianato = totalMixture * 0.4;
+            const agua = totalMixture * 0.04;
+            const catalizador = totalMixture * 0.005;
+            const surfactant = totalMixture * 0.01;
+            
+            document.getElementById('total-mixture').innerHTML = 
+                `Mezcla total para ${volume} m³: <strong>${totalMixture.toFixed(2)} kg</strong>`;
+            
+            document.getElementById('poliol').textContent = poliol.toFixed(2);
+            document.getElementById('isocianato').textContent = isocianato.toFixed(2);
+            document.getElementById('agua').textContent = agua.toFixed(2);
+            document.getElementById('catalizador').textContent = catalizador.toFixed(2);
+            document.getElementById('surfactante').textContent = surfactant.toFixed(2);
+        }
+
+        function downloadTXT() {
+            const volume = document.getElementById('volume').value;
+            const density = document.getElementById('density').value;
+            const poliol = document.getElementById('poliol').textContent;
+            const isocianato = document.getElementById('isocianato').textContent;
+            const agua = document.getElementById('agua').textContent;
+            const catalizador = document.getElementById('catalizador').textContent;
+            const surfactant = document.getElementById('surfactante').textContent;
+
+            const content = `
+Fórmula de Goma Espuma para Colchones
+-------------------------------------
+* Por Jorge Toledo - 2TLOGISTICS *
+            
+Volumen de la caja: ${volume} m³
+Densidad deseada: ${density} kg/m³
+
+Ingredientes necesarios:
+- Poliol: ${poliol} kg
+- Isocianato (TDI/MDI): ${isocianato} kg
+- Agua: ${agua} kg
+- Catalizador: ${catalizador} kg
+- Surfactante: ${surfactant} kg
+
+Instrucciones:
+1. Mezclar poliol e isocianato en proporción 60/40.
+2. Agregar agua y surfactante.
+3. Incorporar catalizador y mezclar rápidamente.
+4. Verter en el molde y dejar expandir (20-60 segundos).
+            `;
+
+            const blob = new Blob([content], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `formula-espuma-2tlogistics-${volume}m3.txt`;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+        
+        window.onload = calculate;
+    </script>
+</body>
+</html>
